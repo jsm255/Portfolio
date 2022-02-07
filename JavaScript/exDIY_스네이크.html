@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            width: 95vw;
+            height: 95vh;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+
+            grid-template-areas: 
+            "header header header"
+            "main main aside"
+            "blank blank blank"
+            ;
+        }
+
+        header{
+            grid-area: header;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body{
+            grid-area: body;
+        }
+
+        aside{
+            grid-area: aside;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 5px;
+        }
+
+        button{
+            width: 200px;
+            height: 22%;
+            font-size: 2em;
+        }
+    </style>
+    
+    <title> 뱀! </title>
+</head>
+<body>
+
+    <header>
+        <h1> 뱀! </h1>
+    </header>
+    <nav>
+
+    </nav>
+    <body>
+        <canvas id="map" width="802px" height="802px"></canvas> <!-- 캔버스의 크기 기본값은 300 * 150 임. 이 크기는 html에서만 늘려줄수 있음 -->
+    </body>
+    <aside>
+        <button id="up" onclick="update()">∧</button>
+        <button id="down" onclick="update()">∨</button>
+        <button id="left" onclick="update()">＜</button>
+        <button id="right" onclick="update()">＞</button>
+    </aside>
+
+    <script>
+        const SIZE = 10;
+
+        let xy = [];
+        xy.push('0,0');
+        xy.push('1,0');
+        xy.push('2,0');
+        xy.push('3,0');
+
+        drawMap();
+
+        function drawMap(){
+            // 얘는 자바에서 말하는 스레드는 아님
+            // 계속 호출해줘야 그려줌. 불친절하다.
+            // 캔버스는
+            // fillRect, strokeRect, clearRect 세 개만 가질 수 있음 (선도 그릴 수 있으나 다른 메서드를 사용)
+            // 각각 색칠된 직사각형, 윤곽만 있는 직사각형, 지우개 임 
+            const map = document.querySelector('#map');
+            const gc = map.getContext('2d');
+
+            gc.fillStyle = '';             // 색칠하는 직사각형 색
+            gc.strokeStyle = 'black';       // 윤곽만 있는 직사각형 색
+            let x = 1;
+            let y = 1;
+            for(let i = 0; i<10; i++) {
+                for(let j = 0; j<10; j++) {
+                    gc.strokeRect(x,y,80,80);
+                    x += 80;
+                }
+                y += 80;
+                x = 1;
+            }
+
+            for(let i = 0; i<xy.length; i++) {
+                const temp = xy[i].split(',');
+                const x = parseInt(temp[0]);
+                const y = parseInt(temp[1]);
+
+                if(i === 0) gc.fillStyle = 'pink';
+                else gc.fillStyle = 'blue';
+                gc.fillRect(1+(x*80), 1+(y*80),80,80);
+            }
+        }
+
+        function eraser(){
+            const map = document.querySelector('#map');
+            const gc = map.getContext('2d');
+
+            gc.strokeStyle = 'black';       // 윤곽만 있는 직사각형 색
+
+            for(let i = 0; i<xy.length; i++) {
+                const temp = xy[i].split(',');
+                const x = parseInt(temp[0]);
+                const y = parseInt(temp[1]);
+                gc.clearRect(1+(x*80), 1+(y*80),80,80);
+                gc.strokeRect(1+(x*80), 1+(y*80),80,80);
+            }
+        }
+
+        function update(){
+            const temp = xy[0].split(',');
+            let x = parseInt(temp[0]);
+            let y = parseInt(temp[1]);
+
+            const input = event.currentTarget.getAttribute('id');
+
+            if(input === 'up') y --;
+            else if(input === 'down') y ++;
+            else if(input === 'left') x --;
+            else if(input === 'right') x ++;
+
+            for(let i = 1; i<xy.length; i++) {
+                const temp2 = xy[i].split(',');
+                const compX = parseInt(temp2[0]);
+                const compY = parseInt(temp2[1]);
+
+                if(x === compX && y === compY) {
+                    console.log('으어악!');
+                    return;
+                }
+                    
+            }
+
+            if(x >= SIZE || x < 0 || y >= SIZE || y < 0) return;
+            else {
+                eraser();
+                const temp = [];
+                temp.push(`${x},${y}`);
+                for(let i = 0; i<xy.length-1; i++) {
+                    temp.push(xy[i]);
+                }
+                xy = temp;
+
+                drawMap();
+            }
+        }
+    </script>
+</body>
+</html>

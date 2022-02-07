@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        button{
+            width: 200px;
+            height: 100px;
+            font-size: 2em;
+
+            background-color: cornsilk;
+            border: none;
+        }
+
+        body{
+            display: grid;
+
+            width: 95vw;
+            height: 95vh;
+
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr 7fr 1fr;
+            grid-template-areas: 
+            "header"
+            "nav"
+            "main"
+            "footer"
+            ;
+
+            gap: 10px;
+            
+        }
+
+        header{
+            grid-area: header;
+
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+
+        }
+
+        main{
+            grid-area: main;
+
+            display: flex;
+            flex-wrap: wrap;
+
+            justify-content: space-evenly;
+
+            gap: 4px;
+        }
+
+        article{
+            border: solid 1px purple;
+        }
+
+        footer{
+            grid-area: footer;
+
+            display: flex;
+
+            justify-content: space-evenly;
+            align-items: center;
+
+        }
+
+        #keyword{
+            width: 300px;
+            height: 75px;
+            font-size: 2em;
+        }
+
+        #search{
+            width: 75px;
+            height: 75px;
+            font-size: 2em;
+        }
+    </style>
+
+
+    <title>검색</title>
+</head>
+<body>
+    <header>
+        <h1> 검색하기 </h1>
+    </header>
+    <nav>
+
+    </nav>
+    <main>
+        <form>
+            <input id='keyword' type="text" required>
+            <input id='search' type='submit' value='검색'>
+        </form>
+    </main>
+    <footer>
+        <button onclick="previous()"> 이전 페이지 </button>
+        <h3>1</h3>
+        <button onclick='next()'> 다음 페이지 </button>
+    </footer>
+    
+    <script>
+        // 패널을 바꿀 때 detach를 사용하면 좋을 것
+        let lastKeyword;
+        let keyword;
+        let pageNum = 1;
+        let imagePageNum = 1;
+
+        let imageSearch = false;
+
+        let buttonGenerated = false;
+
+        let is_end = false;
+        let image_interval;
+
+        $('footer').toggle();
+
+        function searching(){
+            if(!lastKeyword){
+                lastKeyword = $(keyword).val();
+            }
+            else {
+                lastKeyword = $(keyword).val();
+                cleanPanel();
+            }
+            if(imageSearch) {
+                if(document.querySelector('footer').style.display === 'flex') $('footer').toggle();
+                $.ajax({
+                    method: 'get',
+                    url : 'https://dapi.kakao.com/v2/search/image',
+                    data : {
+                        query : keyword,
+                        page : imageSearch ? imagePageNum : pageNum
+                    },
+                    headers : {
+                        Authorization : 'KakaoAK 9b66e8fe8db18a48a78089ea999cf1e7'
+                    }
+                }).done(data => {
+                    const base = data.documents;
+                    is_end = data.meta.is_end;
+                    for(let i = 0; i<base.length; i++) {
+                        if(base[i].thumbnail_url){
+                            const img = document.createElement('img');
+                            $(img).attr('src', `${base[i].thumbnail_url}`);
+                            $('main').append(img);
+                        }
+                    }
+
+                    if(imagePageNum === 1) {
+                        console.log(base);
+                        console.log(data);
+                        image_interval = setInterval(searching, 1000);
+                        imagePageNum ++;
+                    }
+                    else imagePageNum ++;
+                });
+            }
+                
+            else {
+                if(document.querySelector('footer').style.display === 'none') $('footer').toggle();
+                $.ajax({
+                    method: 'get',
+                    url : 'https://dapi.kakao.com/v2/search/web',
+                    data : {
+                        query : keyword,
+                        page : imageSearch ? imagePageNum : pageNum
+                    },
+                    headers : {
+                        Authorization : 'KakaoAK 9b66e8fe8db18a48a78089ea999cf1e7'
+                    }
+                }).done(data => {
+                    const base = data.documents;
+                    is_end = data.meta.is_end;
+
+                    // title, contents, url, datetime
+
+                    for(let i = 0; i<base.length; i++){
+                        const article = document.createElement('article');
+                        const title = document.createElement('h4');
+                        title.innerHTML += `${base[i].title}`;
+
+                        const contents = document.createElement('h4');
+                        contents.innerHTML += `${base[i].contents}`;
+
+                        const datetime = document.createElement('h4');
+                        let date = new Date(base[i].datetime);
+                        date.toUTCString();
+                        datetime.append(date);
+
+                        article.append(title);
+                        article.append(contents);
+                        article.append(datetime);
+
+                        $('main').append(article);
+                    }
+
+                    const insert = document.createElement('h3');
+                    insert.append(document.createTextNode(`${pageNum}`));
+
+                    $('footer h3').replaceWith(insert);
+                });
+            }
+            
+
+        }
+
+        function previous(){
+            if(pageNum === 1) alert('첫 페이지입니다!');
+            else {
+                cleanPanel();
+                pageNum --;
+
+                searching();
+            }
+        }
+
+        function next(){
+            if(is_end) alert('마지막 페이지입니다!');
+            else {
+                cleanPanel();
+                pageNum ++;
+
+                searching();
+            }
+        }
+
+        function submitted(){
+            const moving = $('form').detach();
+            
+            $('header').append(moving);
+        }
+
+        function switchPanel(){
+            if(!buttonGenerated){
+                const bt1 = document.createElement('button');
+                bt1.append(document.createTextNode('웹 문서'));
+                bt1.style.backgroundColor = 'coral';
+                bt1.addEventListener('click', e=>{
+                    if(imageSearch) {
+                        imageSearch = false;
+                        bt1.style.backgroundColor = 'coral';
+                        bt2.style.backgroundColor = 'cornsilk';
+                    }
+                    clearInterval(image_interval);
+                    cleanPanel();
+                    searching();
+                });
+                const bt2 = document.createElement('button');
+                bt2.append(document.createTextNode('이미지'));
+                bt2.addEventListener('click', e=>{
+                    if(!imageSearch) {
+                        imageSearch = true;
+                        bt2.style.backgroundColor = 'coral';
+                        bt1.style.backgroundColor = 'cornsilk';
+                        imagePageNum = 1;
+                    }
+                    cleanPanel();
+                    searching();
+                });
+                $('nav').append(bt1);
+                $('nav').append(bt2);
+                buttonGenerated = true;
+            }
+        }
+
+        function cleanPanel(){
+            $('main article').remove();
+            $('main img').remove();
+        }
+
+        $('form').submit(e=>{
+            e.preventDefault();
+            keyword = $('#keyword').val();
+            pageNum = 1;
+
+            submitted();
+            switchPanel();
+            cleanPanel();
+            searching();
+        });
+    </script>
+</body>
+</html>
