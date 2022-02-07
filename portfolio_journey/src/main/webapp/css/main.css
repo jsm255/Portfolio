@@ -1,0 +1,40 @@
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
+
+/* 이 밑에만 변경사항 위에는 고정 */
+/* 메인  */
+
+main{
+    grid-area: main;
+    background-image: url(img/main.jpg);
+    background-size: cover;
+    text-align: center;
+    height: 65vh;
+    font-size: 15pt;
+    
+}
+.mainTitle{
+    line-height: 150px;
+}
+input[type="text"]#country{
+    width: 25vw;
+    height: 5vh;
+    text-align: center;
+    font-size: 25pt;
+    border-radius: 5px;
+    margin-top:3%;
+}
+button[type="submit"]{
+    display: inline-flex;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+
+}
+
+.button_icon{
+    height:100%;
+    width: 100%;
+    font-size: 22pt;
+}

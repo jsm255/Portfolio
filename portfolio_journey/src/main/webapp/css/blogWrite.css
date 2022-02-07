@@ -1,0 +1,173 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
+
+.writeBlogForm{
+	display:flex;
+	justify-content:center;
+	align-content: center;
+	resize: none;
+}
+
+.subTitle{
+	width:900px;
+	height:40px;
+	margin-bottom: 10px; 
+}
+
+.blogText{
+	display:flex;
+	justify-content:center;
+	align-content: center;
+	font-size: 50px;
+	margin-bottom: 15px; 
+}
+
+.rate{
+	font-size:20px;
+	font-weight: 600;
+}
+
+.write-btn{
+	margin-top: 30px;
+	margin-left: 250px;
+	height: 70px;
+	width: 100px;
+	margin-bottom:80px;
+	border: none;
+	border-radius: 11px;
+	background: rgba(248, 160, 45, 0.856);
+	font-size : 30px;
+	font-family:  'IBM Plex Sans KR', sans-serif;
+}
+
+.fileUpload{
+	margin-bottom: 5px;
+}
+
+.write-btn-area{
+	display:flex;
+	justify-content: end;
+}
+.images-tr{
+	display: flex;
+	
+	
+}
+
+.images-tr td{
+	margin-right: 15px;
+	margin-bottom: 30px;
+	
+}
+
+.inputs-tr{
+	display: flex;
+	
+}
+
+/*--------------------------------- */
+
+*{
+    margin: 0;
+    padding: 0;
+}
+.wrap{
+	position:relative;
+	height:100%;
+	
+}
+body{
+    display: grid;
+
+    width: 100vw;
+    min-height: 100vh;
+
+    grid-template-columns: 100%;
+    grid-template-rows: 15% 10% 60% 15%;
+    grid-template-areas: 
+    "header"
+    "nav"
+    "main"
+    "footer"
+    ;
+    font-family:  'IBM Plex Sans KR', sans-serif;
+}
+/* header */
+header{
+    grid-area: header;
+    background-color:white;
+    height:15vh;
+   
+}
+#title{
+    text-align: center;
+    margin-left: 140px;
+    font-size: 40pt;
+    color:rgba(248, 160, 45, 0.856);
+}
+
+/* 상단 로그인 회원가입 */
+.top-menu{
+    display: inline;
+}
+.top-menu li{
+    display: inline-block;
+}
+
+.top-menu .join{
+    float:right;
+    margin-right: 20px;
+    font-size: 20pt;
+    color:rgba(248, 160, 45, 0.856);
+}
+
+.top-menu .join:hover p{
+    color:black;
+}
+
+a {
+    text-decoration: none; 
+    color:inherit;
+}
+
+/* nav 바 */
+nav{
+	display:block;
+    grid-area: nav;
+    height:10vh;
+    background-color: rgba(248, 160, 45, 0.856);
+    text-align: center;
+    color: black; 
+    padding-top: 0.1px;
+    font-size: 20pt;
+}
+
+nav a:hover {
+    color: gray; 
+    border-color: darkgray;
+}
+nav li {
+    display: inline; 
+    margin: 8%;
+}
+nav a {
+    text-decoration: none; 
+    color: black;
+    border-style: hidden hidden solid hidden; 
+    border-color: transparent;
+    font-weight: bold
+    }
+
+footer{
+    grid-area: footer;
+    background-color: rgba(248, 160, 45, 0.856);
+    color: white;
+    text-align: center;
+    height: 10vh;
+   	bottom:-5px;
+   
+}
+
+
+
+

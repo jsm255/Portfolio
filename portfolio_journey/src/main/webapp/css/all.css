@@ -1,0 +1,108 @@
+@charset "UTF-8";
+
+*{
+    margin: 0;
+    padding: 0;
+}
+.wrap{
+	position:relative;
+	height:100vh;
+
+}
+body{
+    display: grid;
+
+    width: 100vw;
+    
+    grid-template-columns: 100%;
+    grid-template-rows: 15% 15% 63% 7%;
+    grid-template-areas: 
+    "header"
+    "nav"
+    "main"
+    "footer"
+    ;
+    font-family:  'IBM Plex Sans KR', sans-serif;
+    overflow-x: hidden;
+   
+}
+/* header */
+header{
+    grid-area: header;
+    background-color:white;
+    height:12vh;
+    
+}
+#title{
+    text-align: center;
+    margin-left: 14%;
+    margin-top: 1%;
+    font-size: 40pt;
+    color:rgba(248, 160, 45, 0.856);
+}
+
+/* 상단 로그인 회원가입 */
+.top-menu{
+    display: inline;
+}
+.top-menu li{
+    display: inline-block;
+}
+
+.top-menu .join{
+    float:right;
+    margin-right: 20px;
+    font-size: 20pt;
+    color:rgba(248, 160, 45, 0.856);
+}
+
+.top-menu .join:hover p{
+    color:black;
+}
+
+a {
+    text-decoration: none; 
+    color:inherit;
+}
+
+/* nav 바 */
+nav{
+	display:block;
+    grid-area: nav;
+   
+    background-color: rgba(248, 160, 45, 0.856);
+    text-align: center;
+    color: black; 
+    padding-top: 1.2%;
+    font-size: 1.8em;
+    height: 9.4vh;
+}
+
+nav a:hover {
+    color: gray; 
+
+}
+nav a h3{
+    display: inline; 
+    margin: 7%;
+	vertical-align: middle;
+}
+nav a {
+    text-decoration: none; 
+    color: black;
+    border-style: hidden hidden solid hidden; 
+    border-color: transparent;
+    font-weight: bold;
+   
+    }
+
+footer{
+    grid-area: footer;
+    background-color: rgba(248, 160, 45, 0.856);
+    color: white;
+    text-align: center;
+    height:9.2vh;
+   	bottom:0
+   
+}
+

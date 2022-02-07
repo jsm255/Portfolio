@@ -1,0 +1,155 @@
+	@charset "UTF-8";
+
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
+
+
+
+main{
+    grid-area: main;
+    height: 100vh;
+    margin-left: 2%;
+    margin-top: 2%;
+    
+}
+
+aside{
+    width: 15%;
+    float: left;
+    height: 100vh;
+    
+   
+}
+.country{
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    height: auto;
+}
+
+.country ul{
+    list-style: none;
+	
+}
+
+.country ul li{
+    margin: 10% 0 10% 0;
+    font-size: 18pt;
+    color: black;
+}
+
+
+
+#contents{
+	width: 80%;
+	float: right;
+	height: 100vh;
+}
+
+table{
+	width: 80%;
+}
+
+
+img#flag{
+  	width: 250px;
+   	height: 175px;
+}
+
+.btn-like {
+          color: transparent;
+          text-shadow: 0 0 2px gray, 0 0 0 rgb(255, 10, 10);
+        }
+        .btn-like:hover {
+          text-shadow: 0 0 0 red;
+        }
+        .btn-like.done {
+          color: inherit;
+          text-shadow: 0;
+        }
+        .btn-like.done:hover {
+          color: transparent;
+          text-shadow: 0 0 0 #777;
+        }
+
+div#writeReview textarea{
+   	width: 500px;
+   	height: 200px;
+   	resize: none;
+}
+        
+span{white-space:pre;}
+       
+div#writeReview input {
+   	width: 200px;
+   	height: 35px;
+}
+
+div#review a:link {
+	color : blue;
+}
+div#review a:visited {
+	color : orange;
+}
+
+div#countryInfo table{
+	width: 70%;
+	padding: 2% 0 3% 1%;
+	border: 1px solid black;
+}
+
+div#showShortBlogs table{
+	width: 70%;
+	margin-top: 3%;
+	padding-bottom : 3%;
+	border-bottom: 1px solid black;
+	
+}
+
+div#showShortBlogs td{
+	width: 45%;
+}
+
+
+
+/* div#review table{
+	margin-left:10%;
+}
+ */
+ 
+div#review table#reviewA{
+	width: 85%;
+	padding:1% 0 3% 0;
+	border-bottom: 1px solid black;
+}
+
+div#review table._table{
+	width: 90%;
+	border-top: 1px dashed black;	
+	border-bottom: 1px dashed black;	
+}
+div#writeReview table{
+	width: 70%;
+}
+
+div#writeReview th{
+	text-align:left;
+}
+
+div#showShortBlogs img{
+	width: 100px;
+	height: 100px;
+}
+
+div#showShortBlogs a:link{
+	color : blue;
+}
+div#showShortBlogs a:visited {
+	color : orange;
+}
+
+body{
+    height: 91vh;
+    
+}
